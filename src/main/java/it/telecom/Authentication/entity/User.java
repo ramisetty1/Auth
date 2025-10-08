@@ -24,6 +24,8 @@ public class User {
 	private String email;
 	private String password;
 	private String mobile_number;
+	private String resetPasswordKey;
+
 	
 	
 	private LocalDateTime createdOn = LocalDateTime.now();
