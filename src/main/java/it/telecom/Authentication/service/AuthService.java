@@ -1,12 +1,11 @@
 package it.telecom.Authentication.service;
 
-import java.awt.image.renderable.ContextualRenderedImageFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.logging.log4j.message.SimpleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -159,15 +158,15 @@ public class AuthService {
 		userData.setPassword(passwordEncoder.encode(resetPasswordData.getPassword()));
 		userData.setResetPasswordKey("");
 		userRepository.save(userData);
-		
 	
 		
-		
-		
-		
-		
-		
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 
