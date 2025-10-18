@@ -1,9 +1,12 @@
 package it.telecom.Authentication.controller;
 
+
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
+import io.jsonwebtoken.Header;
 import it.telecom.Authentication.entity.User;
 import it.telecom.Authentication.pojo.ForgetPasswordApiData;
 import it.telecom.Authentication.pojo.LoginApiData;
@@ -53,13 +58,16 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginApiData loginApiData) throws Exception {
 		
-		User dbUser = authService.handleLogin(loginApiData);
+		Map<String, Object> dbUser = authService.handleLogin(loginApiData);
 		Map<String, Object> resMap = new HashMap<String, Object>();
 		
 		resMap.put("status", "success");
 		resMap.put("data", dbUser);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(resMap);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", dbUser.get("token").toString());
+		
+		return ResponseEntity.status(HttpStatus.OK).headers(headers).body(resMap);
 		
 		
 	}

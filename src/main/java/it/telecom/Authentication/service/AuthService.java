@@ -41,6 +41,9 @@ public class AuthService {
 	@Autowired
 	public EmailService emailService;
 	
+	@Autowired
+	public JwtService jwtService;
+	
 	
 
 
@@ -73,7 +76,7 @@ public class AuthService {
 		
 	}
 	
-	public User handleLogin(LoginApiData loginApiData) throws Exception {
+	public Map<String, Object> handleLogin(LoginApiData loginApiData) throws Exception {
 		
 		Optional<User> dbData	= userRepository.findByEmail(loginApiData.getEmail());
 		
@@ -88,7 +91,14 @@ public class AuthService {
 		    
 		    if (isMatching==true) {
 		    	
-		    	return dbUser;
+		    	String token = jwtService.genarateJwtToken(dbUser);
+		    	
+		    	Map<String, Object> response = new HashMap<String, Object>();
+		    	
+		    	response.put("data", dbUser);
+		    	response.put("token", token);
+		    	
+		    	return response;
 		    }
 		    
 		    else {
